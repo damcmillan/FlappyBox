@@ -42,6 +42,15 @@ var mainState = {
     var spacekey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     
     spacekey.onDown.add(this.jump, this);
+    
+    
+    this.pipes = game.add.group();
+    
+    this.pipes.enableBody = true;
+    
+    this.pipes.createMultiple(20, 'pipe');
+    
+    this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
 },
 
 update: function() {
@@ -53,8 +62,32 @@ update: function() {
     this.restartGame();
   }
   
+  },
   
+  addOnePipe: function () {
+  //Get the first dead pipe in our group
+  var pipe = this.pipes.getFirstDead();
+  
+  //Set the pipe position
+  pipe.reset(x,y);s
+  
+  pipe.body.velocity.x = -200
+  
+  pipe.checkWorldBounds = true;
+  pipe.outOfBoundskill = true;
 },
+
+  addRowOfPipes: function () {
+  
+  var hole = Math.floor(Math.random()+5) +1;
+  
+  for(var i = 0; i < 8; i++)
+  if( i != hole && i != hole +1){
+    
+    this.addOnePipe(400, i*60 +10);
+  }
+},
+  
 
   jump: function () {
   
